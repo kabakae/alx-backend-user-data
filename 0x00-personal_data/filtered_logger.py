@@ -8,19 +8,21 @@ import re
 from typing import List
 
 
-def filter_datum(fields: List[str], redaction: str, message: str, separator
-                 : str) -> str:
+def filter_datum(fields: List[str], redaction: str, message: str,
+                 separator: str) -> str:
     """
     Returns the log message with specified fields obfuscated.
 
     Args:
-        fields (List[str]): List of strings representing all fields to obfus.
-        redaction (str): String representing by what the field will be obfus.
+        fields (List[str]): List of strings representing all fields to
+                            obfuscate.
+        redaction (str): String representing what the field will be
+                         obfuscated with.
         message (str): String representing the log line.
-        separator (str): String representing by which character is separating.
+        separator (str): Character that separates fields in the log line.
 
     Returns:
         str: The log message with the specified fields obfuscated.
     """
-    return re.sub(f"({'|'.join(fields)})=[^{separator}]+", lambda m /
-                  : f"{m.group(1)}={redaction}", message)
+    pattern = f"({'|'.join(fields)})=[^{separator}]+"
+    return re.sub(pattern, lambda m: f"{m.group(1)}={redaction}", message)
